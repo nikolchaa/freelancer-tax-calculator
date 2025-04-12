@@ -1,0 +1,13 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+
+[dev]
+  command = "npm run dev"          # šta da se pokrene za lokalni dev
+  port = 8888               # port koji koristi Vite
+  targetPort = 5173         # frontend port koji `netlify dev` treba da proksi-uje
+  functionsPort = 9999      # po želji: port za serverless funkcije (interno)
+  autoLaunch = true         # automatski otvori browser
