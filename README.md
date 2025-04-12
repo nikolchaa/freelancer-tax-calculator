@@ -40,6 +40,7 @@ Aplikacija će biti dostupna na `http://localhost:8888`.
 
 ## 📦 Status & Badge
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/2c7685f4-0805-4874-8dd1-77de463b27af/deploy-status)](https://app.netlify.com/sites/kalkulator-poreza/deploys)
 [![GitHub Repo stars](https://img.shields.io/github/stars/nikolchaa/freelancer-tax-calculator?style=social)](https://github.com/nikolchaa/freelancer-tax-calculator)
 
 ## 🪪 Licenca
