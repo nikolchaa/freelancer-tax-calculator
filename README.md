@@ -2,6 +2,10 @@
 
 Kalkulator poreza za frilensere u Srbiji — poređenje modela A i B sa automatski ažuriranim srednjim kursom EUR → RSD.
 
+## 📦 Build Status
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/2c7685f4-0805-4874-8dd1-77de463b27af/deploy-status)](https://kalkulator-poreza.netlify.app)
+
 ## ✨ Funkcionalnosti
 
 - Bruto unos u EUR ili RSD
@@ -37,11 +41,6 @@ Aplikacija će biti dostupna na `http://localhost:8888`.
 - 📧 Email: [nikolchaa@netrunners.work](mailto:nikolchaa@netrunners.work)
 - 🐙 GitHub: [@nikolchaa](https://github.com/nikolchaa)
 - 💼 LinkedIn: [Nikola Ranđelović](https://www.linkedin.com/in/nikolchaa)
-
-## 📦 Status & Badge
-
-[![Netlify Status](https://api.netlify.com/api/v1/badges/2c7685f4-0805-4874-8dd1-77de463b27af/deploy-status)](https://app.netlify.com/sites/kalkulator-poreza/deploys)
-[![GitHub Repo stars](https://img.shields.io/github/stars/nikolchaa/freelancer-tax-calculator?style=social)](https://github.com/nikolchaa/freelancer-tax-calculator)
 
 ## 🪪 Licenca
 
