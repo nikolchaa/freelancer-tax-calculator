@@ -44,5 +44,4 @@ Aplikacija će biti dostupna na `http://localhost:8888`.
 
 ## 🪪 Licenca
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
-[MIT License](./LICENSE) — slobodno koristi, modifikuj i deli ✌️
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)] — slobodno koristi, modifikuj i deli ✌️
