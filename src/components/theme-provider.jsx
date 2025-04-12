@@ -35,6 +35,9 @@ export function ThemeProvider({
   const value = {
     theme,
     setTheme: (newTheme) => {
+      if (typeof window !== "undefined") {
+        return localStorage.getItem(storageKey) || defaultTheme;
+      }
       localStorage.setItem(storageKey, newTheme);
       setTheme(newTheme);
     },
