@@ -13,7 +13,10 @@ export function ThemeProvider({
   ...props
 }) {
   const [theme, setTheme] = useState(() => {
-    return localStorage.getItem(storageKey) || defaultTheme;
+    if (typeof window !== "undefined") {
+      return localStorage.getItem(storageKey) || defaultTheme;
+    }
+    return defaultTheme;
   });
 
   useEffect(() => {
@@ -36,9 +39,8 @@ export function ThemeProvider({
     theme,
     setTheme: (newTheme) => {
       if (typeof window !== "undefined") {
-        return localStorage.getItem(storageKey) || defaultTheme;
+        localStorage.setItem(storageKey, newTheme);
       }
-      localStorage.setItem(storageKey, newTheme);
       setTheme(newTheme);
     },
   };
