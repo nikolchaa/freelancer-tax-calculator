@@ -2,10 +2,6 @@
 
 Kalkulator poreza za frilensere u Srbiji — poređenje modela A i B sa automatski ažuriranim srednjim kursom EUR → RSD.
 
-## 📦 Build Status
-
-[![Netlify Status](https://api.netlify.com/api/v1/badges/2c7685f4-0805-4874-8dd1-77de463b27af/deploy-status)](https://kalkulator-poreza.netlify.app)
-
 ## ✨ Funkcionalnosti
 
 - Bruto unos u EUR ili RSD
@@ -19,10 +15,10 @@ Kalkulator poreza za frilensere u Srbiji — poređenje modela A i B sa automats
 ## 🔧 Tehnologije
 
 - ⚛️ Preact + Vite (JSX)
-- ☁️ Serverless funkcija (Mini API koji preuzima srednji kurs sa NBS putem [Kurs API](https://kurs.resenje.org/doc/)-ja)
+- ☁️ Serverless funkcija
 - 🎨 TailwindCSS
-- 🧩 shadcn/ui (Radix UI)
-- 📈 Recharts
+- 🧹 shadcn/ui (Radix UI)
+- 📊 Recharts
 
 ## 🚀 Pokretanje
 
@@ -42,10 +38,14 @@ Aplikacija će biti dostupna na `http://localhost:8888`.
 - 🐙 GitHub: [@nikolchaa](https://github.com/nikolchaa)
 - 💼 LinkedIn: [Nikola Ranđelović](https://www.linkedin.com/in/nikolchaa)
 
-## 🪪 Licenca
+## 🧪 Licenca
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE) — slobodno koristi, modifikuj i deli ✌️
 
-## 🔨 Eksterni Alat
+## ☁️ Serverless Kurs API Proxy
 
-[Kurs API](https://kurs.resenje.org/doc/) by [Janoš Guljaš](https://resenje.org/)
+Da bi se izbegli CORS problemi pri direktnom pozivanju [Kurs API](https://kurs.resenje.org/doc/)-ja iz frontend aplikacije, koristi se jednostavna serverless funkcija kao proxy sloj.
+
+Ova funkcija se hostuje putem Netlify Functions i ponaša se kao mini API koji prosleđuje zahteve ka [Kurs API](https://kurs.resenje.org/doc/)-ju i vraća odgovore klijentu bez CORS ograničenja.
+
+Na ovaj način aplikacija uvek ima pristup svežem kursu EUR → RSD sa NBS, bez potrebe za dodatnom konfiguracijom CORS zaglavlja na originalnom API-ju.
