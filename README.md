@@ -19,7 +19,7 @@ Kalkulator poreza za frilensere u Srbiji — poređenje modela A i B sa automats
 ## 🔧 Tehnologije
 
 - ⚛️ Preact + Vite (JSX)
-- ☁️ Serverless funkcija (mini API za srednji kurs sa NBS)
+- ☁️ Serverless funkcija (Mini API koji preuzima srednji kurs sa NBS putem [Kurs API](https://kurs.resenje.org/doc/)-ja)
 - 🎨 TailwindCSS
 - 🧩 shadcn/ui (Radix UI)
 - 📈 Recharts
@@ -45,3 +45,7 @@ Aplikacija će biti dostupna na `http://localhost:8888`.
 ## 🪪 Licenca
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE) — slobodno koristi, modifikuj i deli ✌️
+
+## 🔨 Eksterni Alat
+
+[Kurs API](https://kurs.resenje.org/doc/) by [Janoš Guljaš](https://resenje.org/)
