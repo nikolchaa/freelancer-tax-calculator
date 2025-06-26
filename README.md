@@ -34,7 +34,7 @@ Aplikacija će biti dostupna na `http://localhost:8888`.
 ## 📬 Kontakt
 
 - 🌐 Web: [nikolchaa.com (WIP)](https://nikolchaa.com)
-- 📧 Email: [nikolchaa@netrunners.work](mailto:nikolchaa@netrunners.work)
+- 📧 Email: [contact@nikolchaa.com](mailto:contact@nikolchaa.com)
 - 🐙 GitHub: [@nikolchaa](https://github.com/nikolchaa)
 - 💼 LinkedIn: [Nikola Ranđelović](https://www.linkedin.com/in/nikolchaa)
 
