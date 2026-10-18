@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Chart } from "@/components/line-chart";
 import { Progress } from "@/components/ui/progress";
+import { modelA, modelB } from "@/lib/tax";
 
 export function App() {
   const [eurToRsd, setEurToRsd] = useState(117.5);
@@ -33,61 +34,9 @@ export function App() {
       });
   }, []);
 
-  const modelA = () => {
-    const exempt = 107738;
-    const base = Math.max(incomeRsd - exempt, 0);
-    const tax = base > 0 ? base * 0.2 : 0;
-    const pio = base > 0 ? base * 0.24 : 0;
-    const health =
-      base > 0 ? (insuredElsewhere ? 0 : Math.max(base * 0.103, 5497)) : 0;
-    const total = tax + pio + health;
-    return {
-      net: (incomeRsd - total) / eurToRsd,
-      netRsd: incomeRsd - total,
-      taxBase: base,
-      tax,
-      pio,
-      health,
-      total,
-      totalPercent: incomeRsd > 0 ? (total / incomeRsd) * 100 : 0,
-    };
-  };
-
-  const modelB = () => {
-    const exempt = 107738;
-    if (incomeRsd <= exempt) {
-      return {
-        net: incomeRsd / eurToRsd,
-        netRsd: incomeRsd,
-        taxBase: 0,
-        tax: 0,
-        pio: 0,
-        health: 0,
-        total: 0,
-        totalPercent: 0,
-      };
-    }
-    const fixed = 64979 + incomeRsd * 0.34;
-    const base = Math.max(incomeRsd - fixed, 0);
-    const tax = base > 0 ? base * 0.1 : 0;
-    const pio = base > 0 ? Math.max(base * 0.24, 23160 * 3) : 0;
-    const health =
-      base > 0 ? (insuredElsewhere ? 0 : Math.max(base * 0.103, 4206)) : 0;
-    const total = tax + pio + health;
-    return {
-      net: (incomeRsd - total) / eurToRsd,
-      netRsd: incomeRsd - total,
-      taxBase: base,
-      tax,
-      pio,
-      health,
-      total,
-      totalPercent: incomeRsd > 0 ? (total / incomeRsd) * 100 : 0,
-    };
-  };
-
-  const a = modelA();
-  const b = modelB();
+  const withEur = (r) => ({ ...r, net: r.netRsd / eurToRsd });
+  const a = withEur(modelA(incomeRsd, insuredElsewhere));
+  const b = withEur(modelB(incomeRsd, insuredElsewhere));
 
   return (
     <div className='max-w-3xl mx-auto p-6 space-y-6'>
@@ -182,7 +131,7 @@ export function App() {
             <p>Porez (10%): {b.tax.toFixed(2)} RSD</p>
             <p>
               Doprinos PIO{" "}
-              <span className={"text-[0.75rem]"}>(min. 3 mes.)</span>:{" "}
+              <span className={"text-[0.75rem]"}>(min. 36.934 RSD)</span>:{" "}
               {b.pio.toFixed(2)} RSD
             </p>
             <p>Doprinos za zdravstvo: {b.health.toFixed(2)} RSD</p>
