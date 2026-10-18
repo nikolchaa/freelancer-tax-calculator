@@ -12,7 +12,60 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Chart } from "@/components/line-chart";
 import { Progress } from "@/components/ui/progress";
-import { modelA, modelB } from "@/lib/tax";
+import { modelA, modelB, TAX_YEAR } from "@/lib/tax";
+
+const fmt = (n) =>
+  n.toLocaleString("sr-RS", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
+const Row = ({ label, value, className = "" }) => (
+  <div className={`flex justify-between gap-4 ${className}`}>
+    <span className='text-muted-foreground'>{label}</span>
+    <span className='tabular-nums text-right'>{fmt(value)} RSD</span>
+  </div>
+);
+
+const ModelCard = ({ name, result, rows, better }) => (
+  <Card
+    className={`bg-background transition-colors ${
+      better ? "border-foreground/40" : ""
+    }`}
+  >
+    <CardContent className='space-y-2 text-sm'>
+      <div className='flex items-center justify-between'>
+        <h2 className='text-xl font-semibold'>
+          Model {name}{" "}
+          <span className='text-sm font-normal text-muted-foreground'>
+            ({result.totalPercent.toFixed(2)}%)
+          </span>
+        </h2>
+        {better && (
+          <span className='rounded-full bg-foreground px-2.5 py-0.5 text-xs font-medium text-background'>
+            Isplativije
+          </span>
+        )}
+      </div>
+      <Progress className={"my-3"} value={100 - result.totalPercent} />
+      {rows.map(([label, value]) => (
+        <Row key={label} label={label} value={value} />
+      ))}
+      <Row
+        label='Porez + doprinosi'
+        value={result.total}
+        className='border-t pt-2 font-medium [&>span]:text-foreground'
+      />
+      <div className='mt-3 rounded-md bg-muted p-3'>
+        <p className='text-xs text-muted-foreground'>Neto prihod</p>
+        <p className='text-2xl font-bold tabular-nums'>{fmt(result.net)} €</p>
+        <p className='text-sm text-muted-foreground tabular-nums'>
+          {fmt(result.netRsd)} RSD
+        </p>
+      </div>
+    </CardContent>
+  </Card>
+);
 
 export function App() {
   const [eurToRsd, setEurToRsd] = useState(117.5);
@@ -38,15 +91,22 @@ export function App() {
   const a = withEur(modelA(incomeRsd, insuredElsewhere));
   const b = withEur(modelB(incomeRsd, insuredElsewhere));
 
+  const better = a.netRsd >= b.netRsd ? "A" : "B";
+
   return (
     <div className='max-w-3xl mx-auto p-6 space-y-6'>
-      <h1 className='text-3xl font-bold'>Kalkulator poreza za frilensere</h1>
-      <p className='text-sm text-gray-600'>
-        Srednji kurs EUR (NBS): {eurToRsd.toFixed(2)} RSD
-      </p>
+      <header className='space-y-2'>
+        <h1 className='text-3xl font-bold tracking-tight'>
+          Kalkulator poreza za frilensere
+        </h1>
+        <p className='text-sm text-muted-foreground'>
+          Kvartalni obračun po parametrima za {TAX_YEAR}. godinu • Srednji kurs
+          EUR (NBS): {fmt(eurToRsd)} RSD
+        </p>
+      </header>
       <Card className={"bg-background"}>
         <CardContent className='space-y-4'>
-          <label className='font-medium'>Bruto prihod:</label>
+          <label className='font-medium'>Bruto prihod u kvartalu:</label>
           <RadioGroup
             defaultValue='EUR'
             className='flex gap-4 pt-3'
@@ -71,13 +131,14 @@ export function App() {
           </RadioGroup>
           <Input
             type='number'
+            min='0'
             value={income}
             onChange={(e) => setIncome(Number(e.target.value))}
           />
-          <p className='text-sm text-gray-500'>
+          <p className='text-sm text-muted-foreground'>
             {currency === "EUR"
-              ? `≈ ${(income * eurToRsd).toFixed(2)} RSD`
-              : `≈ ${(income / eurToRsd).toFixed(2)} EUR`}
+              ? `≈ ${fmt(income * eurToRsd)} RSD`
+              : `≈ ${fmt(income / eurToRsd)} EUR`}
           </p>
           <div className='flex items-center gap-2'>
             <Switch
@@ -93,59 +154,28 @@ export function App() {
       </Card>
 
       <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-        <Card className={"bg-background"}>
-          <CardContent className='space-y-1'>
-            <h2 className='text-xl font-semibold mb-2'>
-              Model A{" "}
-              <span className='text-sm font-normal text-muted-foreground'>
-                ({a.totalPercent.toFixed(2)}%)
-              </span>
-            </h2>
-            <Progress className={"my-2"} value={100 - a.totalPercent} />
-            <p>Osnovica: {a.taxBase.toFixed(2)} RSD</p>
-            <p>Porez (20%): {a.tax.toFixed(2)} RSD</p>
-            <p>Doprinos PIO (24%): {a.pio.toFixed(2)} RSD</p>
-            <p>Doprinos za zdravstvo: {a.health.toFixed(2)} RSD</p>
-            <p className='font-medium'>
-              Porez + doprinosi: {a.total.toFixed(2)} RSD
-            </p>
-            <p className='text-ring font-bold'>
-              Neto prihod (EUR): {a.net.toFixed(2)} €
-            </p>
-            <p className='text-ring font-bold'>
-              Neto prihod (RSD): {a.netRsd.toFixed(2)} RSD
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className={"bg-background"}>
-          <CardContent className='space-y-1'>
-            <h2 className='text-xl font-semibold mb-2'>
-              Model B{" "}
-              <span className='text-sm font-normal text-muted-foreground'>
-                ({b.totalPercent.toFixed(2)}%)
-              </span>
-            </h2>
-            <Progress className={"my-2"} value={100 - b.totalPercent} />
-            <p>Osnovica: {b.taxBase.toFixed(2)} RSD</p>
-            <p>Porez (10%): {b.tax.toFixed(2)} RSD</p>
-            <p>
-              Doprinos PIO{" "}
-              <span className={"text-[0.75rem]"}>(min. 36.934 RSD)</span>:{" "}
-              {b.pio.toFixed(2)} RSD
-            </p>
-            <p>Doprinos za zdravstvo: {b.health.toFixed(2)} RSD</p>
-            <p className='font-medium'>
-              Porez + doprinosi: {b.total.toFixed(2)} RSD
-            </p>
-            <p className='text-ring font-bold'>
-              Neto prihod (EUR): {b.net.toFixed(2)} €
-            </p>
-            <p className='text-ring font-bold'>
-              Neto prihod (RSD): {b.netRsd.toFixed(2)} RSD
-            </p>
-          </CardContent>
-        </Card>
+        <ModelCard
+          name='A'
+          result={a}
+          better={incomeRsd > 0 && better === "A"}
+          rows={[
+            ["Osnovica", a.taxBase],
+            ["Porez (20%)", a.tax],
+            ["PIO (24%)", a.pio],
+            ["Zdravstvo (10,3%)", a.health],
+          ]}
+        />
+        <ModelCard
+          name='B'
+          result={b}
+          better={incomeRsd > 0 && better === "B"}
+          rows={[
+            ["Osnovica", b.taxBase],
+            ["Porez (10%)", b.tax],
+            ["PIO (24%, min. 36.934)", b.pio],
+            ["Zdravstvo (10,3%)", b.health],
+          ]}
+        />
       </div>
       <Chart insuredElsewhere={insuredElsewhere} eurToRsd={eurToRsd} />
       <footer className='text-center text-sm text-muted-foreground mt-6 space-y-1'>
