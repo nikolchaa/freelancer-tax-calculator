@@ -147,7 +147,7 @@ export function App() {
           </CardContent>
         </Card>
       </div>
-      <Chart healthInsurance={insuredElsewhere} />
+      <Chart insuredElsewhere={insuredElsewhere} eurToRsd={eurToRsd} />
       <footer className='text-center text-sm text-muted-foreground mt-6 space-y-1'>
         <p>
           Nikola Ranđelović (@nikolchaa) •{" "}
